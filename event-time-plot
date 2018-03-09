@@ -1,0 +1,20 @@
+### trying to plot a graph of run time against event number. initial attempts resulted in y (time) axis being one big blur
+### this is most likely because time was not formatted correctly and R thought it was categorical, giving a label for every time point
+
+> library(tidyverse)
+
+###extra bits to fix scan error
+> tlpdata <- read.table(file = "C:/Users/computer/desktop/R stuff/tlp50.txt", comment.char = "", fill=T)
+
+###label variables
+> event <- tlpdata$V1
+> time <- tlpdata$V3 ###V3 not V2 as V3 is correct adjusted time
+> gender <- tlpdata$V4
+
+###convert time to class POSIXct, changes format to hh:mm:ss, make event into a continous value
+> Time <- as.POSIXct(strptime(time, format="%H:%M:%S"))
+> Event = as.numeric(as.character(event))
+
+### graph
+> ggplot(data = tlpdata, aes(x = Event, y = Time, color = gender)) + 
+geom_point() + geom_smooth(colour = "black")
